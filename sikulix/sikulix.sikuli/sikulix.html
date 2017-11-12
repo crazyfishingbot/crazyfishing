@@ -1,0 +1,223 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>sikulix.sikuli</h2> <a href="sikulix.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">import</span> subprocess
+setThrowException(True)
+<span class="kw">import</span> datetime
+
+<span class="kw">def</span> print_time(msg):
+    tt = datetime.datetime.now().strftime(<span class="str">"%H:%M:%S.%f"</span>)
+    <span class="kw">print</span>( <span class="str">"%s  %s"</span> % (tt, msg) )
+
+<span class="kw">def</span> myClick(pos):
+    <span class="kw">if</span> <span class="kw">not</span> pos:
+        <span class="kw">return</span>
+    pos.hover()
+    mouseDown(Button.LEFT)
+    <span class="skw">sleep</span>(<span class="dig">0.1</span>)
+    mouseUp()
+    <span class="skw">sleep</span>(<span class="dig">0.1</span>)
+
+Settings.MoveMouseDelay = <span class="dig">0.2</span>
+
+<span class="cmt">#setting</span>
+<span class="cmt">#全撿</span>
+<span class="cmt">#pick_mode = 1 </span>
+<span class="cmt">#只撿碎片</span>
+<span class="cmt">#pick_mode = 2 </span>
+pick_mode = <span class="dig">1</span>
+store = <span class="dig">1</span>
+
+fishing_rod = <span class="str">'7'</span>
+is_shooting = <span class="dig">0</span>
+count = <span class="dig">0</span>
+count2 = <span class="dig">0</span>
+t1 = datetime.datetime.now()
+is_fishing = <span class="dig">0</span>
+
+<span class="kw">while</span> True:
+        <span class="cmt">#print_time("f1")</span>
+        m1 = False
+        <span class="kw">if</span> is_fishing &gt; <span class="dig">0</span>:
+            m1 = exists(Pattern(<img src="1506221481654.png" />).similar(<span class="dig">0.50</span>),is_fishing)
+        is_fishing = <span class="dig">0</span>
+        <span class="kw">if</span> m1:
+            r1 = Region(m1.x - int(m1.w*<span class="dig">0.18</span>), m1.y + int(m1.h*<span class="dig">2.6</span>), int(m1.w*<span class="dig">1.45</span>), int(m1.h*<span class="dig">0.5</span>))
+            img1 = <span class="skw">capture</span>(r1)
+            <span class="skw">sleep</span>(<span class="dig">0.1</span>)
+            img2 = <span class="skw">capture</span>(r1)
+            result = subprocess.check_output(<span class="str">'cd /d %s &amp;&amp; cd ../../python &amp;&amp; python darwin.py %s %s'</span>%(getBundlePath(),img1,img2), shell=True)
+            <span class="cmt">#result = subprocess.check_output('python D://lol_project/run_node/sikulix/python/darwin.py %s %s'%(img1,img2), shell=True)</span>
+            <span class="kw">print</span>(result)
+            <span class="skw">type</span>(result)
+            <span class="kw">if</span> pick_mode == <span class="dig">1</span>:
+                <span class="skw">sleep</span>(<span class="dig">4</span>)
+                <span class="skw">type</span>(<span class="str">"r"</span>)
+            <span class="kw">elif</span> pick_mode == <span class="dig">2</span>:
+                <span class="skw">sleep</span>(<span class="dig">3.5</span>)
+                <span class="kw">if</span> exists(<img src="1506187210848.png" />,<span class="dig">0</span>):
+                    <span class="skw">type</span>(<span class="str">"r"</span>)
+            <span class="skw">type</span>(Key.SPACE)
+            t1 = datetime.datetime.now()
+            Debug.user(<span class="str">u"甩竿2"</span>)
+            is_shooting = <span class="dig">0</span>
+            <span class="skw">sleep</span>(<span class="dig">3</span>)
+            <span class="kw">if</span> exists(<img src="1506871959078.png" />,<span class="dig">0</span>):
+                myClick(exists(<img src="1508600299846.png" />,<span class="dig">0</span>))
+        <span class="cmt">#print_time("f2")</span>
+        <span class="kw">if</span> exists(<img src="1506065189732.png" />,<span class="dig">0</span>):
+            <span class="kw">if</span> exists(<img src="1508863694582.png" />,<span class="dig">0</span>):
+                <span class="skw">type</span>(Key.ENTER)
+            t2 = datetime.datetime.now()
+            Debug.user( <span class="str">u"收竿費時 %s"</span> % (t2-t1) )
+            <span class="skw">type</span>(Key.SPACE)
+            <span class="skw">sleep</span>(<span class="dig">1.60</span>+<span class="dig">0.1</span>)
+            <span class="skw">type</span>(Key.SPACE)
+            is_shooting = <span class="dig">0</span>
+            count += <span class="dig">1</span>
+            <span class="kw">print</span>(<span class="str">"釣魚次數: %d    招標次數: %d"</span> % (count,count2))
+            is_fishing = <span class="dig">5</span>
+            <span class="kw">continue</span>
+        <span class="cmt">#print_time("f3")</span>
+        <span class="kw">if</span> exists(<img src="1506065112873.png" />,<span class="dig">0</span>):
+            <span class="kw">if</span> is_shooting == <span class="dig">1</span>:
+                <span class="kw">if</span> fishing_rod == <span class="str">'7'</span>:
+                    fishing_rod = <span class="str">'8'</span>
+                <span class="kw">else</span>:
+                    fishing_rod = <span class="str">'7'</span>
+                <span class="skw">type</span>(fishing_rod)
+                <span class="skw">sleep</span>(<span class="dig">1</span>)
+            is_shooting = <span class="dig">1</span>
+            <span class="kw">if</span> pick_mode == <span class="dig">1</span>:
+                <span class="skw">type</span>(<span class="str">"r"</span>)
+            <span class="kw">elif</span> pick_mode == <span class="dig">2</span>:
+                <span class="kw">if</span> exists(<img src="1506187210848.png" />,<span class="dig">0</span>):
+                    <span class="skw">type</span>(<span class="str">"r"</span>)
+            <span class="skw">type</span>(Key.SPACE)
+            t1 = datetime.datetime.now()
+            Debug.user(<span class="str">u"甩竿1"</span>)
+            <span class="skw">sleep</span>(<span class="dig">5</span>)
+            <span class="kw">if</span> exists(<img src="1506819135171.png" />,<span class="dig">0</span>):
+                <span class="skw">type</span>(Key.ESC)
+            <span class="kw">if</span> exists(<img src="1506819529645.png" />,<span class="dig">0</span>):
+                <span class="skw">type</span>(Key.ESC)
+            <span class="kw">if</span> exists(<img src="1508342707927.png" />,<span class="dig">0</span>):
+                <span class="skw">type</span>(Key.ESC)
+        <span class="kw">if</span> exists(<img src="1508519043012.png" />,<span class="dig">0</span>):
+            <span class="kw">if</span> exists(<img src="1506871959078.png" />,<span class="dig">0</span>):
+                myClick(exists(<img src="1508600299846.png" />,<span class="dig">0</span>))
+            <span class="kw">if</span> store == <span class="dig">1</span>:
+                <span class="cmt">#myClick(exists("1508688288467.png",0))</span>
+                <span class="cmt">#myClick(exists("1508863060999.png",0))</span>
+                myClick(exists(<img src="1509104285011.png" />,<span class="dig">0</span>))
+                <span class="cmt">#myClick(exists("1509352755397.png",0))</span>
+                store = <span class="dig">1</span>
+            <span class="kw">elif</span> store == <span class="dig">2</span>:
+                <span class="cmt">#myClick(exists("1509352787893.png",0))</span>
+                myClick(exists(<img src="1509104285011.png" />,<span class="dig">0</span>))
+                store = <span class="dig">3</span>
+            <span class="kw">elif</span> store == <span class="dig">3</span>:
+                myClick(exists(<img src="1509352787893.png" />,<span class="dig">0</span>))
+                <span class="cmt">#myClick(exists("1509104285011.png",0))</span>
+                store = <span class="dig">1</span>
+            <span class="skw">sleep</span>(<span class="dig">1</span>)
+            m2 = exists(<img src="1508519764906.png" />,<span class="dig">0</span>)
+            <span class="kw">if</span> <span class="kw">not</span> m2:
+                <span class="kw">continue</span>
+            r2 = Location(m2.x, m2.y + <span class="dig">60</span>)
+            myClick(r2)
+            <span class="skw">sleep</span>(<span class="dig">1</span>)
+            <span class="kw">try</span>:
+                <span class="kw">if</span> exists(<img src="1506937021194.png" />,<span class="dig">0</span>):
+                    <span class="kw">for</span> x <span class="kw">in</span> findAll(<img src="1506937021194.png" />):
+                        myClick(x)
+                        <span class="skw">type</span>(Key.ENTER)
+                    <span class="kw">if</span> exists(<img src="1506937045640.png" />,<span class="dig">35</span>):
+                        iten_count = <span class="dig">0</span>
+                        <span class="kw">for</span> x <span class="kw">in</span> findAll(<img src="1506937045640.png" />):
+                            myClick(x)
+                            <span class="skw">type</span>(Key.ENTER)
+                            count2 += <span class="dig">1</span>
+                            <span class="kw">print</span>(<span class="str">"招標次數: %d"</span> % (count2))
+                            iten_count += <span class="dig">1</span>
+                        <span class="kw">if</span> iten_count &gt; <span class="dig">1</span>:
+                            <span class="kw">if</span> exists(<img src="1506937045640.png" />,<span class="dig">0</span>):
+                                <span class="kw">for</span> x <span class="kw">in</span> findAll(<img src="1506937045640.png" />):
+                                    myClick(x)
+                                    <span class="skw">type</span>(Key.ENTER)
+                                    count2 += <span class="dig">1</span>
+                                    <span class="kw">print</span>(<span class="str">"招標次數: %d"</span> % (count2))
+            <span class="kw">except</span>:
+                <span class="kw">continue</span>
+</pre>
+</body>
+</html>

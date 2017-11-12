@@ -1,0 +1,1 @@
+{"success":true,"room_name":"全國牙醫師推薦 的房間","room_password":"2086","room_player_list":["哥哥654654654","全國牙醫師推薦"],"mode":2}
